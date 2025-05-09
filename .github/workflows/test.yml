@@ -1,4 +1,4 @@
-name: Test Pipeline
+name: Laravel Docker Tests
 
 on:
   push:
@@ -9,24 +9,32 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [18.x]
-
+    
     steps:
     - uses: actions/checkout@v3
-    
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        
-    - name: Install dependencies
-      run: npm ci
-      
-    - name: Run tests
-      run: npm test
-      
-    - name: Build project
-      run: npm run build 
+
+    - name: Copy .env
+      run: cp .env.example .env
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Build and start Docker containers
+      run: docker-compose up -d
+
+    - name: Install Composer Dependencies
+      run: docker-compose exec -T app composer install
+
+    - name: Generate Application Key
+      run: docker-compose exec -T app php artisan key:generate
+
+    - name: Run Database Migrations
+      run: docker-compose exec -T app php artisan migrate
+
+    - name: Run Tests
+      run: docker-compose exec -T app php artisan test
+
+    - name: Build Frontend Assets
+      run: |
+        docker-compose exec -T app npm install
+        docker-compose exec -T app npm run build 
