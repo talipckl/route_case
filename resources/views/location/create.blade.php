@@ -44,7 +44,7 @@
         </div>
     </form>
     <script>
-        const map = L.map('map').setView([20, 0], 2); // Dünya haritası, global başlangıç
+        const map = L.map('map').setView([20, 0], 2);
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors'
@@ -52,9 +52,7 @@
 
         let marker;
 
-        // Dinamik renkli marker ikonu oluşturucu
         function createColoredMarkerIcon(color) {
-            // Klasik lokasyon pini SVG'si
             return L.divIcon({
                 className: '',
                 html: `<svg xmlns='http://www.w3.org/2000/svg' width='32' height='40' viewBox='0 0 32 40'><path d='M16 0C8.268 0 2 6.268 2 14c0 8.284 12.09 24.36 13.01 25.57a2 2 0 0 0 3.98 0C17.91 38.36 30 22.284 30 14c0-7.732-6.268-14-14-14zm0 20a6 6 0 1 1 0-12 6 6 0 0 1 0 12z' fill='${color}' stroke='#222' stroke-width='2'/><circle cx='16' cy='14' r='4' fill='#fff' opacity='0.7'/></svg>`,
@@ -64,7 +62,6 @@
             });
         }
 
-        // Haritaya tıklayınca marker ekle
         map.on('click', function(e) {
             const {
                 lat,

@@ -30,11 +30,9 @@
             });
         }
 
-        // PHP'den gelen locations verisini JavaScript'e aktarma
         const locations = @json($locations);
 
         if (locations.length > 0) {
-            // Her konum için marker oluştur
             locations.forEach(location => {
                 const marker = L.marker(
                     [parseFloat(location.latitude), parseFloat(location.longitude)], {
@@ -42,7 +40,6 @@
                     }
                 ).addTo(map);
 
-                // Marker popup içeriğini oluştur
                 const popupContent = `
                 <div class="min-w-[200px] bg-white rounded-md shadow">
                     <div class="p-2">
@@ -119,7 +116,6 @@
                     parseFloat(point.longitude)
                 ]);
 
-                // Rota animasyonu için değişkenler
                 let currentIndex = 0;
                 routeLayer = L.featureGroup().addTo(map);
 
@@ -173,7 +169,6 @@
                 drawNextSegment();
 
             } catch (error) {
-                console.error('Rota hesaplama hatası:', error);
                 alert('Rota hesaplanırken bir hata oluştu!');
                 isProcessing = false;
                 loadingIndicator.classList.add('hidden');
@@ -187,7 +182,6 @@
                 return;
             }
 
-            // Eğer önceden bir marker varsa kaldır
             if (selectedMarker) {
                 map.removeLayer(selectedMarker);
             }
