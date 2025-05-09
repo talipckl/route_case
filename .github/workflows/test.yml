@@ -13,19 +13,16 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Setup Docker Buildx
+    - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
 
-    - name: Setup Docker Compose
-      uses: ndeloof/install-compose-action@v0.0.1
-
-    - name: Cache Docker layers
+    - name: Cache Docker images
       uses: actions/cache@v3
       with:
-        path: /tmp/.buildx-cache
-        key: ${{ runner.os }}-buildx-${{ github.sha }}
+        path: ~/.docker
+        key: ${{ runner.os }}-docker-${{ github.sha }}
         restore-keys: |
-          ${{ runner.os }}-buildx-
+          ${{ runner.os }}-docker-
 
     - name: Cache Composer packages
       uses: actions/cache@v3
@@ -48,7 +45,7 @@ jobs:
 
     - name: Build and start containers
       run: |
-        docker compose build --cache-from type=local,src=/tmp/.buildx-cache --cache-to type=local,dest=/tmp/.buildx-cache-new,mode=max
+        docker compose build
         docker compose up -d
 
     - name: Install Composer Dependencies
@@ -69,13 +66,6 @@ jobs:
     - name: Build Frontend Assets
       run: docker compose exec -T app npm run build
 
-    # Temizlik işlemleri
     - name: Stop containers
       if: always()
-      run: docker compose down
-
-    # Cache'i güncelle
-    - name: Move cache
-      run: |
-        rm -rf /tmp/.buildx-cache
-        mv /tmp/.buildx-cache-new /tmp/.buildx-cache 
+      run: docker compose down 
