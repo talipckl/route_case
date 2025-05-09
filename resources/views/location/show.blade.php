@@ -4,7 +4,6 @@
     <div class="container">
             <div id="map" style="height: 500px; margin: 20px 0;"></div>
             <br>
-            {{-- konum ile ilgili db bilgisi ve harita üzerinde görüntüleme detaylı bilgi gelecek --}}
             <div class="flex flex-row gap-4">
             <div class="card">
                 <div class="card-body">

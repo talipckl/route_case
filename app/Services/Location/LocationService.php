@@ -2,13 +2,16 @@
 
 namespace App\Services\Location;
 
-use App\Models\Location;
 use App\Services\Location\LocationServiceInterface;
 use App\Repositories\Location\LocationRepositoryInterface;
+use App\Services\Route\RouteServiceInterface;
 
 class LocationService implements LocationServiceInterface
 {
-    public function __construct(protected LocationRepositoryInterface $locationRepository)
+    public function __construct(
+        protected LocationRepositoryInterface $locationRepository,
+        protected RouteServiceInterface $routeService
+    )
     {
         //
     }
@@ -40,6 +43,6 @@ class LocationService implements LocationServiceInterface
 
     public function getRoute($startLatitude, $startLongitude)
     {
-        return $this->locationRepository->getRoute($startLatitude, $startLongitude);
+        return $this->routeService->calculateRoute($startLatitude, $startLongitude);
     }
 }

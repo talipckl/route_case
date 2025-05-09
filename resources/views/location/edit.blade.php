@@ -55,7 +55,6 @@
             document.getElementById('longitude').value = position.lng;
         });
 
-        // Renk değiştiğinde marker rengini güncelle
         document.getElementById('color').addEventListener('change', function(e) {
             const newColor = e.target.value;
             marker.setIcon(createColoredMarkerIcon(newColor));
