@@ -4,8 +4,8 @@
     "scripts": {
         "build": "vite build",
         "dev": "vite",
-        "test": "php artisan test",
-        "test:coverage": "php artisan test --coverage"
+        "test": "./vendor/bin/sail php artisan test",
+        "test:coverage": "./vendor/bin/sail php artisan test --coverage"
     },
     "devDependencies": {
         "@tailwindcss/vite": "^4.0.0",
